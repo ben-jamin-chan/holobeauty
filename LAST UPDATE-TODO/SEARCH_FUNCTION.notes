@@ -1,0 +1,54 @@
+Searchbar.jsx -> To create the <input> component and the 
+Searchresult.jsx -> Logic of searchbar after user searched for a product
+Add -> <Route path="/search" element={<Searchresult />} /> to App.jsx
+
+- filteredResults is the array that has already been filtered based on selectedBrands and selectedCategories.
+- Therefore, you should map over filteredResults (not results), as it already contains the products that match the filtering criteria.
+- If filteredResults has any items, it will render them using ProductCard. If not, it will display the "No products found" message.
+
+
+=== OG SEARCHRESULT JSX ===
+import React, { useEffect, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
+import { products } from '../Products/Products'
+import ProductCard from '../Products/ProductCard'
+import Shop from '../../Pages/Shop'
+
+const Searchresult = () => {
+  const [searchParams] = useSearchParams();
+  const query = searchParams.get("q");
+  const [results, setResults] = useState([]);
+
+  useEffect(() => {
+    if (query) {
+      // Filter your products absed on the query
+      const filteredProducts = products.filter(
+        (product) =>
+          product.title.toLowerCase().includes(query.toLowerCase()) ||
+          product.brand.toLowerCase().includes(query.toLowerCase()) ||
+          product.category.toLowerCase().includes(query.toLowerCase())
+      );
+      setResults(filteredProducts);
+    }
+  }, [query]);
+
+  return (
+    <div>
+      <Shop products={results} />
+      <div className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5">
+        <h2>Search Results for: {query}</h2>
+        <div className="products-grid">
+          {results.length > 0 ? (
+            results.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))
+          ) : (
+            <p className="text-center text-gray-500">No products found.</p>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default Searchresult

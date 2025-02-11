@@ -1,0 +1,75 @@
+Step 1:
+// Setup useState to store the state of the checkbox/input
+const [selectedBrands, setSelectedBrands] = useState([]);
+const [selectedCategories, setSelectedCategories] = useState([]);
+
+Step2:
+// Setup the useState logic to save the value of the user selection from the filter checkbox/input
+const handleFilterChange = (filterType, value) => {
+    if (filterType === 'brand') {
+      setSelectedBrands((prev) =>
+        prev.includes(value) ? prev.filter((b) => b !== value) : [...prev, value]
+      );
+    } else if (filterType === 'category') {
+      setSelectedCategories((prev) =>
+        prev.includes(value) ? prev.filter((c) => c !== value) : [...prev, value]
+      );
+    }
+  };
+
+Step3:
+- Create a variable for the .filter logic, using the array of the objects based on user's input checkbox/input selection 
+- The logic checks if the selected product matches the selected brands or categories
+- If filter is empty it returns all products
+
+// const filteredProducts = products.filter((product) => {
+//     const brandMatch = selectedBrands.length === 0 || selectedBrands.includes(product.brand);
+//     const categoryMatch = selectedCategories.length === 0 || selectedCategories.includes(product.category);
+//     return brandMatch && categoryMatch;
+//   });
+
+Step4:
+- Update the input with the filter logic of the previous step earlier
+- This part determines whether the checkbox should be checked (selected) or not based on the currently selected filters.
+Checked -> is an input property to check 
+// checked={section.id === 'brands' 
+//         ? selectedBrands.includes(option.value)
+//         : selectedCategories.includes(option.value)}
+
+// onChange={() => handleFilterChange(section.id === 'brands' ? 'brand' : 'category', option.value)}
+    - When the checkbox is clicked (checked/unchecked), it calls the handleFilterChange function.
+    - The function determines if it's dealing with a brand or category based on the section.id.
+
+{section.options.map((option) => (
+    <input
+                                type="checkbox"
+                                id={`${section.id}-${option.value}`}
+                                value={option.value}
+                                checked={section.id === 'brands' 
+                                ? selectedBrands.includes(option.value)
+                                : selectedCategories.includes(option.value)}
+                                onChange={() => handleFilterChange(section.id === 'brands' ? 'brand' : 'category', option.value)}
+                                className=""
+                                />
+                                ))}
+
+    <label 
+            htmlFor={`${section.id}-${option.value}`} 
+            className="text-sm text-gray-600"
+    >
+            {option.label}
+    </label>
+
+Step5:
+- Instead of displaying all products directly, we now map through filteredProducts to show only the filtered items.
+- If no products match the selected filters, a message "No products found" is displayed.
+
+ <div className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5">
+              {filteredProducts.length > 0 ? (
+                  filteredProducts.map((product) => (
+                    <ProductCard key={product.id} product={product} />
+                  ))
+                ) : (
+                  <p className="text-center text-gray-500">No products found.</p>
+                )}
+                </div>
