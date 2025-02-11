@@ -305,7 +305,7 @@ const Shop = ({}) => {
         </main>
       </div>
     </div>
-    </div>
+  </div>
   )
 }
 
