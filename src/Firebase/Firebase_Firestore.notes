@@ -1,0 +1,44 @@
+If your website only supports **guest checkout** (i.e., users don't need to log in or create an account), it does change the dynamic a bit when deciding whether to use **Firebase/Firestore**. However, there are still cases where Firebase could make sense, even for guest users. Let's weigh the options:
+
+TODO: 
+### When to **Not Use Firebase/Firestore**: 
+If you're only dealing with guest checkouts and the cart is not tied to a specific user, it might not make sense to use a backend database like Firestore for these reasons:
+- **No User Authentication**: Without user accounts, you're not leveraging Firebase's authentication or real-time capabilities in a meaningful way for syncing across sessions or devices.
+- **No Need for Cloud Persistence**: If you’re okay with cart data being lost once the user leaves the site or closes the browser (since they aren't logging in or creating an account), then there’s less reason to use Firestore.
+- **Local Storage is Enough**: For guest checkout, **local storage** is typically sufficient. It allows users to have a persistent cart during their session (even after page reloads), and it's very fast. It doesn’t require server-side resources and is easier to implement.
+  
+^In this case, **local storage** provides a good balance of simplicity and functionality.
+
+
+
+
+
+### When You **Might Still Want to Use Firebase/Firestore**:
+Even with guest checkout, there are scenarios where Firebase could still offer value:
+- **Persistent Cart Across Sessions (Not Tied to a User)**: If you want users to retain their cart across **multiple sessions** or **devices** (e.g., if they visit your site from a different browser or device), you can still save their cart to Firestore using a **unique session ID** (which could be stored in local storage or cookies). This would allow users to come back later and pick up where they left off, even if they don’t have an account.
+  
+  For example, if they add items to the cart on one device, they can view the same cart on another device, because you could persist the cart data on Firestore using this session ID as a reference.
+
+- **Data Analysis & Insights**: If you're running a larger business and want to track cart abandonment or analyze shopping behavior (even from guest users), Firestore could help store cart data temporarily to gain insights, even though the user isn’t authenticated.
+
+- **Cart Recovery for Abandoned Carts**: You could use Firestore to store a cart temporarily if a user abandons it. Later, when they visit again, you could offer an incentive (e.g., discounts) and attempt to recover the cart, even if they haven’t logged in.
+
+- **Simpler Checkout Flow**: If you want to store the cart on Firestore to offer some "smart" checkout options (e.g., auto-completing addresses or offering targeted discounts based on cart contents), storing cart data server-side could make it easier to integrate with other services.
+
+### Hybrid Option:
+If you're not sure and want to offer some level of persistence without requiring accounts, you could take a **hybrid approach**:
+- **Local Storage for Short-Term Persistence**: Use local storage to keep track of the cart while the user is browsing. This ensures fast access and offline support.
+- **Firestore for Cross-Session Persistence**: If a user comes back to the site later, you can sync the cart to Firestore via a session ID or temporary key. This gives them a seamless experience without needing to sign in.
+
+### Example Scenario:
+1. **Initial Visit**: Cart data is stored in local storage.
+2. **User Leaves**: Cart is still in local storage when they return, but now you can check if the cart data exists in Firestore (maybe by checking their session ID).
+3. **Session ID Management**: Even without logging in, you could generate a unique session ID for the guest user. When they visit again, if that ID is still present, you can restore the cart from Firestore.
+
+This approach allows you to have both short-term cart storage and long-term persistence for the guest, without forcing them to create an account.
+
+### Conclusion:
+- **If cart persistence across devices and sessions is not necessary**, **local storage** is likely your best option for simplicity, speed, and reduced complexity.
+- **If you want some persistence across sessions or devices** for guest users (e.g., recovering the cart when they return), using **Firestore** could still be worthwhile, even without user authentication.
+
+So, if your site only has guest checkout and you don't need cart syncing across multiple devices, you can skip Firebase/Firestore and stick with local storage. But if you want to enhance the user experience by allowing them to pick up their cart later, Firebase is a great solution.

@@ -4,7 +4,7 @@ ALWAYS READ ME FIRST!!!!!:
 * NOTES *
 1. Firestore user auth
 2. Stripe/Razorpay for payment? Or add to cart and contact whatsapp for payment #MAYBE? TBC?
-3. Sign up and Sign in for auth users firebase/firestore
+3. Sign up and Sign in for auth users firebase/firestore 
 4. Check out as guest 
 5. Dark mode needs to be fixed for Shop.jsx
 
@@ -42,6 +42,17 @@ FIXME: * TRY TO UNDERSTAND THE SEARCH FUNCTION CODE *
 - SEARCHRESULT PAGE === SHOP PAGE * filtered the search results and do results.map instead of the filteredProducts.map *
 
 == 10 FEB 2025 ==
-- To start implementing sort function
+- To start implementing sort function 
 - Local storage for cart? Maybe look at backend firestore/firebase
 - Try and understand the search function
+
+== 16 FEB 2025 ==
+- Sort function *implemented* in Shop.jsx 
+- Local storage for cart? Maybe look at backend firestore/firebase
+- Setup guest checkout page
+
+== 17 FEB 2025 ==
+- Implemented localStorage + Firestore/Firebase hybrid for CartContext.jsx
+- Increased item quantity selection from 5 -> 10 in Cart.jsx
+- To setup guest checkout page
+- Try and understand localStorage + Firestore/Firebase hybrid for the updated CartContext.jsx

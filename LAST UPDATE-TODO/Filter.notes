@@ -1,10 +1,12 @@
 Step 1:
 // Setup useState to store the state of the checkbox/input
+
 const [selectedBrands, setSelectedBrands] = useState([]);
 const [selectedCategories, setSelectedCategories] = useState([]);
 
-Step2:
-// Setup the useState logic to save the value of the user selection from the filter checkbox/input
+Step 2:
+// Setup the useState for active useState (setSelected) logic to save the value of the user selection from the filter checkbox/input
+
 const handleFilterChange = (filterType, value) => {
     if (filterType === 'brand') {
       setSelectedBrands((prev) =>
@@ -17,28 +19,31 @@ const handleFilterChange = (filterType, value) => {
     }
   };
 
-Step3:
-- Create a variable for the .filter logic, using the array of the objects based on user's input checkbox/input selection 
-- The logic checks if the selected product matches the selected brands or categories
-- If filter is empty it returns all products
+Step 3:
+// - Create a variable for the .filter logic to link with the passive useState (selected)
+// - By using the array of the objects based on user's input checkbox/input selection 
+// - The logic checks if the selected product matches the selected brands or categories
+// - If filter is empty it returns all products
 
-// const filteredProducts = products.filter((product) => {
-//     const brandMatch = selectedBrands.length === 0 || selectedBrands.includes(product.brand);
-//     const categoryMatch = selectedCategories.length === 0 || selectedCategories.includes(product.category);
-//     return brandMatch && categoryMatch;
-//   });
+const filteredProducts = products.filter((product) => {
+    const brandMatch = selectedBrands.length === 0 || selectedBrands.includes(product.brand);
+    const categoryMatch = selectedCategories.length === 0 || selectedCategories.includes(product.category);
+    return brandMatch && categoryMatch;
+  });
 
-Step4:
-- Update the input with the filter logic of the previous step earlier
-- This part determines whether the checkbox should be checked (selected) or not based on the currently selected filters.
-Checked -> is an input property to check 
-// checked={section.id === 'brands' 
-//         ? selectedBrands.includes(option.value)
-//         : selectedCategories.includes(option.value)}
+Step 4:
+// - Update the input with the filter logic of the previous step earlier
+// - This part determines whether the checkbox should be checked (selected) or not based on the currently selected filters.
+// Checked -> is an input property to check 
 
-// onChange={() => handleFilterChange(section.id === 'brands' ? 'brand' : 'category', option.value)}
-    - When the checkbox is clicked (checked/unchecked), it calls the handleFilterChange function.
-    - The function determines if it's dealing with a brand or category based on the section.id.
+checked={section.id === 'brands' 
+        ? selectedBrands.includes(option.value)
+        : selectedCategories.includes(option.value)}
+
+onChange={() => handleFilterChange(section.id === 'brands' ? 'brand' : 'category', option.value)}
+
+    // - When the checkbox is clicked (checked/unchecked), it calls the handleFilterChange function.
+    // - The function determines if it's dealing with a brand or category based on the section.id.
 
 {section.options.map((option) => (
     <input
@@ -61,8 +66,8 @@ Checked -> is an input property to check
     </label>
 
 Step5:
-- Instead of displaying all products directly, we now map through filteredProducts to show only the filtered items.
-- If no products match the selected filters, a message "No products found" is displayed.
+// - Instead of displaying all products directly, we now map through filteredProducts to show only the filtered items.
+// - If no products match the selected filters, a message "No products found" is displayed.
 
  <div className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5">
               {filteredProducts.length > 0 ? (

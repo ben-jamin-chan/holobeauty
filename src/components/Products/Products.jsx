@@ -85,7 +85,7 @@ export const products = [
     aosDelay: "600",
   },
   {
-    id: 8,
+    id: 9,
     img: "https://m.clinique.com.my/media/export/cms/products/1200x1500/cl_sku_6MNY13_1200x1500_0.png",
     title: "Makeup SPF 15",
     brand: "Clinique",

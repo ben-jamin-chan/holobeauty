@@ -2,7 +2,11 @@ import React from 'react'
 import { useCart } from '../../Context/CartContext'
 
 const Cart = () => {
-    const { cart, total, removeFromCart, updateQuantity } = useCart()
+  const { cart, total, removeFromCart, updateQuantity, isLoading } = useCart()
+
+  if (isLoading) {
+      return <div>Loading cart...</div>
+  }
 
     // Need to check if const products object names are matching with the below .map from Products.jsx
 
@@ -32,7 +36,7 @@ const Cart = () => {
                       onChange={(e) => updateQuantity(item.id, parseInt(e.target.value))}
                       className="border rounded p-1"
                     >
-                      {[1, 2, 3, 4, 5].map((num) => (
+                      {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
                         <option key={num} value={num}>{num}</option>
                       ))}
                     </select>

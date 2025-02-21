@@ -101,12 +101,12 @@ const Navbar = ({ handleOrderPopup }) => {
                     <ul className="space-y-2">
                       {DropdownLinks.map((data) => (
                         <li key={data.id}>
-                          <a
+                          <Link
                             className="text-gray-500 dark:hover:text-white duration-200 inline-block p-2 hover:bg-primary/20 w-full rounded-md font-semibold"
-                            href={data.link}
+                            to="/shop"
                           >
                             {data.name}
-                          </a>
+                          </Link>
                         </li>
                       ))}
                     </ul>

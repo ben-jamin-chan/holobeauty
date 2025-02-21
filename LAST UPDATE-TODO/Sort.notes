@@ -1,0 +1,67 @@
+1. Setup useState to store and change the value
+2. Setup handleSortChange to link with active useState setSortOption
+3. Setup .sort logic for the (products) array of objects
+4. Render the selected sort result with .map 
+    i. Create button for selected option
+    ii. Pass in the value of the argument/parameter + selected object in the array -> value={option.name}
+    iii. Pass in onClick function for button to link with handleSortChange + selected object in the array -> onClick={() => handleSortChange(option.name)}
+
+* Menuitems for display *
+const sortOptions = [
+  // { name: 'Newest', href: '#', current: true },
+  { name: 'Price: Low to High', href: '#', current: true },
+  { name: 'Price: High to Low', href: '#', current: false },
+]
+
+Step 1:
+// Setup useState to store the string, it can also be an empty string -> useState('')
+const [sortOption, setSortOption] = useState('Price: Low to High');
+
+Step 2:
+// Parameter (option) represents the sort choice that the user selects, like "Price: Low to High" or "Price: High to Low".
+const handleSortChange = (option) => {
+  setSortOption(option)
+}
+
+Step 3:
+// Setup .sort logic for the (products) array of objects
+* Example 1 *
+.sort((a, b) => {
+    if (sortOption === "Price: Low to High") {
+      return a.price - b.price
+    } else if (sortOption === "Price: High to Low") {
+      return b.price - a.price
+    }
+    // return 0 (Not necessary(?))
+  })
+
+* Example 2 *
+const sortedProducts = products.sort((a,b) => {
+    if (sortOption === "Price: Low to High") {
+        return a.price - b.price
+    } else if (sortOption === "Price: High to Low") {
+        return b.price - a.price
+    }
+    return 0
+})
+
+
+Step 4:
+// Rendering the selected sort option with .map to show the .sort result
+// Passing in the value of {option.name} to <button>
+// Passing in the active useState function of handleSortChange to the <button> to setup the .sort logic function for button
+value={option.name}
+onClick={() => handleSortChange(option.name)}
+
+{sortOptions.map((option) => (
+                      <MenuItem key={option.name}>
+                        <button
+                          value={option.href}
+                          onClick={() => handleSortChange(option.name)}
+                          className={classNames(
+                            option.name === sortOption ? 'font-medium text-gray-900' : 'text-gray-500',
+                            'block px-4 py-2 text-sm hover:bg-gray-100 hover:text-gray-900 data-[focus]:bg-gray-100 data-[focus]:outline-none'
+                          )}
+                        >
+                          {option.name}
+                        </button>

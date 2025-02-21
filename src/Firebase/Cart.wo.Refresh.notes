@@ -1,0 +1,94 @@
+// OG CART'S LOGIC ON HOW THE CART WORKS AND HOW IT DISPLAYS WHAT ITEMS AND ETC.
+// CART IS LOST ONCE PAGE REFRESH
+
+import { createContext, useState, useContext, useEffect } from "react"
+import { collection, addDoc, updateDoc, deleteDoc, doc } from "firebase/firestore"
+import { db } from '../firebase/config';
+
+const CartContext = createContext()
+
+export const useCart = () => useContext(CartContext)
+
+export const CartProvider = ({ children }) => {
+    const [cart, setCart] = useState([])
+    const [total, setTotal] = useState(0)
+
+    useEffect(() => {
+        const calculateTotal = () => {
+            const sum = cart.reduce((acc, item) => acc + (item.price * item.quantity), 0)
+            setTotal(sum)
+        }
+        calculateTotal()
+    }, [cart])
+
+    const addToCart = async (product) => {
+        try {
+          const existingItem = cart.find(item => item.id === product.id);
+          
+          if (existingItem) {
+            const updatedCart = cart.map(item =>
+              item.id === product.id
+                ? { ...item, quantity: item.quantity + 1 }
+                : item
+            );
+            setCart(updatedCart);
+            
+            const cartRef = doc(db, 'carts', existingItem.docId);
+            await updateDoc(cartRef, { quantity: existingItem.quantity + 1 });
+          } else {
+            const cartRef = collection(db, 'carts');
+            const docRef = await addDoc(cartRef, {
+              ...product,
+              quantity: 1,
+            });
+            
+            setCart([...cart, { ...product, quantity: 1, docId: docRef.id }]);
+          }
+        } catch (error) {
+          console.error("Error adding to cart:", error);
+        }
+      };
+
+    const removeFromCart = async (productId) => {
+        try {
+            const item = cart.find(item => item.id === productId)
+            if (item) {
+                await deleteDoc(doc(db, "carts", item.docId))
+                setCart(cart.filter(item => item.id !== productId))
+            }
+        } catch (error) {
+            console.error("Error removing from cart:", error)
+        }
+    }
+
+    const updateQuantity = async (productId, newQuantity) => {
+        try {
+            const item = cart.find(item => item.id === productId)
+            if (item) {
+                const cartRef = doc(db, "carts", item.docId)
+                await updateDoc(cartRef, { quantity: newQuantity })
+
+                const updatedCart = cart.map(item => 
+                item.id === productId
+                ? { ...item, quantity: newQuantity}
+                : item
+            );
+            setCart(updatedCart)
+            }
+        } catch (error) {
+            console.error("Error updating quantity:", error);
+        }
+    }
+    
+return (
+    <CartContext.Provider value={{
+        cart,
+        total,
+        addToCart,
+        removeFromCart,
+        updateQuantity
+    }}>
+        {children}
+    </CartContext.Provider>
+)
+}

@@ -1,3 +1,49 @@
+=== OG SEARCHRESULT JSX ===
+// import React, { useEffect, useState } from 'react'
+// import { useSearchParams } from 'react-router-dom'
+// import { products } from '../Products/Products'
+// import ProductCard from '../Products/ProductCard'
+// import Shop from '../../Pages/Shop'
+
+// const Searchresult = () => {
+//   const [searchParams] = useSearchParams();
+//   const query = searchParams.get("q");
+//   const [results, setResults] = useState([]);
+
+//   useEffect(() => {
+//     if (query) {
+//       // Filter your products absed on the query
+//       const filteredProducts = products.filter(
+//         (product) =>
+//           product.title.toLowerCase().includes(query.toLowerCase()) ||
+//           product.brand.toLowerCase().includes(query.toLowerCase()) ||
+//           product.category.toLowerCase().includes(query.toLowerCase())
+//       );
+//       setResults(filteredProducts);
+//     }
+//   }, [query]);
+
+//   return (
+//     <div>
+//       <Shop products={results} />
+//       <div className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5">
+//         <h2>Search Results for: {query}</h2>
+//         <div className="products-grid">
+//           {results.length > 0 ? (
+//             results.map((product) => (
+//               <ProductCard key={product.id} product={product} />
+//             ))
+//           ) : (
+//             <p className="text-center text-gray-500">No products found.</p>
+//           )}
+//         </div>
+//       </div>
+//     </div>
+//   );
+// }
+
+// export default Searchresult
+
 Searchbar.jsx -> To create the <input> component and the 
 Searchresult.jsx -> Logic of searchbar after user searched for a product
 Add -> <Route path="/search" element={<Searchresult />} /> to App.jsx
@@ -6,49 +52,57 @@ Add -> <Route path="/search" element={<Searchresult />} /> to App.jsx
 - Therefore, you should map over filteredResults (not results), as it already contains the products that match the filtering criteria.
 - If filteredResults has any items, it will render them using ProductCard. If not, it will display the "No products found" message.
 
+#1 (Searchbar.jsx) // Setup Searchbar.jsx for the <input> and navigation when onChange occurs
+Step 1:
+// Create useState for the search's query
+const [searchQuery, setSearchQuery] = useState("")
 
-=== OG SEARCHRESULT JSX ===
-import React, { useEffect, useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
-import { products } from '../Products/Products'
-import ProductCard from '../Products/ProductCard'
-import Shop from '../../Pages/Shop'
+Step 2:
+// Setup useNavigate()
+const navigate = useNavigate()
 
-const Searchresult = () => {
-  const [searchParams] = useSearchParams();
-  const query = searchParams.get("q");
-  const [results, setResults] = useState([]);
-
-  useEffect(() => {
-    if (query) {
-      // Filter your products absed on the query
-      const filteredProducts = products.filter(
-        (product) =>
-          product.title.toLowerCase().includes(query.toLowerCase()) ||
-          product.brand.toLowerCase().includes(query.toLowerCase()) ||
-          product.category.toLowerCase().includes(query.toLowerCase())
-      );
-      setResults(filteredProducts);
+Step 3:
+// Setup handleSearch logic for the form to be submitted
+// e.preventDefault(): This prevents the default form submission behavior (which would reload the page)
+const handleSearch = (e) => {
+    e.preventDefault()
+    if (searchQuery.trim()) {
+      navigate(`/search?q=${encodeURIComponent(searchQuery)}`)
     }
-  }, [query]);
+  }
 
-  return (
-    <div>
-      <Shop products={results} />
-      <div className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5">
-        <h2>Search Results for: {query}</h2>
-        <div className="products-grid">
-          {results.length > 0 ? (
-            results.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))
-          ) : (
-            <p className="text-center text-gray-500">No products found.</p>
-          )}
-        </div>
-      </div>
+Step 4:
+// Key points for adding it all into the jsx return for Searchbar.jsx
+<form onSubmit={handleSearch}>
+<input
+value={searchQuery}
+onChange={(e) => setSearchQuery(e.target.value)}
+/>
+
+Step 4.1:
+// Returning Searchbar.jsx
+return (
+    <form onSubmit={handleSearch}>
+    <div className="relative group sm:block">
+      <input 
+      type="text" 
+      placeholder=" Search products..."
+      value={searchQuery}
+      onChange={(e) => setSearchQuery(e.target.value)}
+      className="font-normal rounded border border-black h-9" 
+      />
+      <button type='submit'>
+      <IoMdSearch className="text-xl text-gray-600 group-hover:text-primary dark:text-gray-400 absolute top-1/2 -translate-y-1/2 right-3 duration-200" />
+      </button>
     </div>
-  );
-}
+    </form>
+  )
 
-export default Searchresult
+User Types a Search Query:
+- As the user types in the <input> field, the (searchQuery) state updates.
+
+User Submits the Form:
+- When the user clicks the search button or presses Enter, the <form> is submitted, which triggers the (handleSearch) function.
+
+#2 (Searchresult.jsx) // Setup Searchresult.jsx for the search logic and displaying the search results
+Step 1:

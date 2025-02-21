@@ -58,6 +58,7 @@ const Shop = ({}) => {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
   const [selectedBrands, setSelectedBrands] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
+  const [sortOption, setSortOption] = useState('');
 
   const handleFilterChange = (filterType, value) => {
     if (filterType === 'brand') {
@@ -71,11 +72,21 @@ const Shop = ({}) => {
     }
   };
 
+const handleSortChange = (option) => {
+  setSortOption(option)
+}
+
   const filteredProducts = products.filter((product) => {
     const brandMatch = selectedBrands.length === 0 || selectedBrands.includes(product.brand);
     const categoryMatch = selectedCategories.length === 0 || selectedCategories.includes(product.category);
     return brandMatch && categoryMatch;
-  });
+  }).sort((a, b) => {
+    if (sortOption === "Price: Low to High") {
+      return a.price - b.price
+    } else if (sortOption === "Price: High to Low") {
+      return b.price - a.price
+    }
+  })
   
   return (
     <div>
@@ -197,15 +208,16 @@ const Shop = ({}) => {
                   {/* SORT OPTION FIXME: */} 
                     {sortOptions.map((option) => (
                       <MenuItem key={option.name}>
-                        <a
-                          href={option.href}
+                        <button
+                          value={option.name}
+                          onClick={() => handleSortChange(option.name)}
                           className={classNames(
-                            option.current ? 'font-medium text-gray-900' : 'text-gray-500',
-                            'block px-4 py-2 text-sm hover:bg-gray-100 hover:text-gray-900 data-[focus]:bg-gray-100 data-[focus]:outline-none',
+                            option.name === sortOption ? 'font-medium text-gray-900' : 'text-gray-500',
+                            'block px-4 py-2 text-sm hover:bg-gray-100 hover:text-gray-900 data-[focus]:bg-gray-100 data-[focus]:outline-none'
                           )}
                         >
                           {option.name}
-                        </a>
+                        </button>
                       </MenuItem>
                     ))}
                   </div>
