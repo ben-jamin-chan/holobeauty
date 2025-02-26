@@ -9,3 +9,4 @@ Currently, two official plugins are available:
 # holobeauty
 # holobeauty-copy
 # holobeauty-copy
+# holobeauty-copy
