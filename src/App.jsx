@@ -8,10 +8,9 @@ import Banner from './components/Banner/Banner'
 import headphone from "./assets/hero/headphone.png"
 import Products from './components/Products/Products.jsx'
 import smartwatch2 from "./assets/category/smartwatch2-removebg-preview.png"
-import Blogs from './components/Blogs/Blogs'
+import Blogsdata from './components/Blogs/Blogsdata'
 import Partners from './components/Partners/Partners'
 import Footer from './components/Footer/Footer'
-import Signup from "./components/Signup/Signup.jsx"
 import { useState } from 'react'
 import AOS from 'aos'
 import 'aos/dist/aos.css';
@@ -78,7 +77,6 @@ useEffect(() => {
         <Route path="/search" element={<Searchresult />} />
       </Routes>
       <Footer />
-      <Signup orderPopup={orderPopup} handleOrderPopup={handleOrderPopup} />
       </BrowserRouter>
     </div>
     </CartProvider>
@@ -95,7 +93,7 @@ const Home = () => {
       <Banner data={BannerData} />
       <Products />
       <Banner data={BannerDataTwo} />
-      <Blogs />
+      <Blog />
       <Partners />
   </>
   )

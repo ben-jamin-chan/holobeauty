@@ -1,11 +1,33 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useCart } from '../../Context/CartContext'
+import GuestCheckout from '../GuestCheckout/GuestCheckout'
+import OrderConfirmation from '../OrderConfirmation/OrderConfirmation'
 
 const Cart = () => {
-  const { cart, total, removeFromCart, updateQuantity, isLoading } = useCart()
+  const { cart, total, removeFromCart, updateQuantity, isLoading, clearCart } = useCart()
+  const [checkoutStep, setCheckoutStep] = useState('cart') // 'cart', 'checkout', 'confirmation'
+  const [orderDetails, setOrderDetails] = useState(null)
 
   if (isLoading) {
       return <div>Loading cart...</div>
+  }
+
+  const handleCheckoutClick = () => {
+    setCheckoutStep('checkout')
+  }
+
+  const handleCheckoutComplete = async (details) => {
+    setOrderDetails(details)
+    setCheckoutStep('confirmation')
+    await clearCart() // Clear the cart after successful checkout
+  }
+
+  if (checkoutStep === 'checkout') {
+    return <GuestCheckout cartItems={cart} totalAmount={total} onCheckoutComplete={handleCheckoutComplete} />
+  }
+
+  if (checkoutStep === 'confirmation') {
+    return <OrderConfirmation orderDetails={orderDetails} />
   }
 
     // Need to check if const products object names are matching with the below .map from Products.jsx
@@ -53,7 +75,10 @@ const Cart = () => {
                 <span className="font-bold">Total:</span>
                 <span className="font-bold">RM {total.toFixed(2)}</span>
               </div>
-              <button className="w-full mt-4 bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700">
+              <button 
+                className="w-full mt-4 bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"
+                onClick={handleCheckoutClick}
+              >
                 Checkout
               </button>
             </>

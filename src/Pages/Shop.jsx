@@ -17,7 +17,7 @@ import {
 } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon, Squares2X2Icon } from '@heroicons/react/20/solid'
-import Blogs from '../components/Blogs/Blogs'
+import Blogsdata from '../components/Blogs/Blogsdata'
 import Blog from './Blog'
 
 const sortOptions = [

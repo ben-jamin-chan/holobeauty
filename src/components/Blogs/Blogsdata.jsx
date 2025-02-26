@@ -28,7 +28,7 @@ const BlogData = [
     },
 ]
 
-const Blogs = () => {
+const Blogsdata = () => {
   return (
     <div className="py-12">
       <div className="container">
@@ -69,4 +69,4 @@ const Blogs = () => {
   );
 };
 
-export default Blogs;
+export default Blogsdata;
