@@ -1,0 +1,19 @@
+// Step 4: Loading the Cart (Initial Setup)
+
+We want to create a useEffect to search for changes and update whenever there's changes in Cart
+
+1. We start by creating a useEffect and a variable name called initializeCart with async function 
+
+2. Set the active useState of loading to true
+
+3. We will get or create shopper ID by calling the getOrCreateSessionId into a newly created variable and link the active useState of setSessionId to the newly created variable
+
+4. We want to check if there's any browser storage first
+    i. We will create a variable that will get the value from browser's storage as string
+    ii. Create an if statement with the new variable that will .getItem from browser storage
+    iii. Create another new variable and convert it into an object using JSON.parse and link it with the first variable created earlier 
+    iv. Create another new variable and pass in the 2nd newly created variable that will get the cart for the current session 
+        iv. Make a || to check if no cart exists for the session, it will return to empty array []
+    v. Lastly, call the active useState of the cart and link it with the 3rd new variable
+
+5. 

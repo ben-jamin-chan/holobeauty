@@ -1,17 +1,13 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import Navbar from './components/Navbar/Navbar'
 import Hero from './components/Hero/Hero'
 import Category from './components/Category/Category'
 import CategoryTwo from './components/Category/CategoryTwo'
 import Services from './components/Services/Services'
 import Banner from './components/Banner/Banner'
-import headphone from "./assets/hero/headphone.png"
 import Products from './components/Products/Products.jsx'
-import smartwatch2 from "./assets/category/smartwatch2-removebg-preview.png"
-import Blogs from './components/Blogs/Blogs'
 import Partners from './components/Partners/Partners'
 import Footer from './components/Footer/Footer'
-import Signup from "./components/Signup/Signup.jsx"
 import { useState } from 'react'
 import AOS from 'aos'
 import 'aos/dist/aos.css';
@@ -24,6 +20,13 @@ import Blog from './Pages/Blog'
 import { CartProvider } from './Context/CartContext.jsx'
 import Cart from './components/Cart/Cart.jsx'
 import Searchresult from './components/Search/Searchresult.jsx'
+import ShippingPolicy from './pages/ShippingPolicy.jsx'
+import TermsConditions from './pages/TermsConditions.jsx'
+import FAQ from './pages/FAQ.jsx'
+import Contact from './pages/Contact.jsx'
+import PaymentInfo from './pages/PaymentInfo.jsx'
+import ProductDetails from './components/Products/ProductDetails.jsx'
+import FeaturedProducts from './components/Products/FeaturedProducts'
 
 const BannerData = {
   discount: "30% OFF",
@@ -76,9 +79,14 @@ useEffect(() => {
         <Route path="/blog" element={<Blog />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/search" element={<Searchresult />} />
+        <Route path="/product/:id" element={<ProductDetails />} />
+        <Route path="/shipping-policy" element={<ShippingPolicy />} />
+        <Route path="/terms-conditions" element={<TermsConditions />} />
+        <Route path="/faq" element={<FAQ />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/payment-info" element={<PaymentInfo />} />
       </Routes>
       <Footer />
-      <Signup orderPopup={orderPopup} handleOrderPopup={handleOrderPopup} />
       </BrowserRouter>
     </div>
     </CartProvider>
@@ -93,9 +101,9 @@ const Home = () => {
       <CategoryTwo />
       <Services />
       <Banner data={BannerData} />
-      <Products />
+      <FeaturedProducts />
       <Banner data={BannerDataTwo} />
-      <Blogs />
+      <Blog />
       <Partners />
   </>
   )

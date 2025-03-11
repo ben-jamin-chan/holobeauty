@@ -1,0 +1,131 @@
+ALWAYS READ ME FIRST!!!!!:
+- FILTER AND CODE ON THE RIGHT SIDE WORKS, UNDERSTAND AND TRY TO IMPLEMENT INTO THE PROJECT 
+
+* NOTES *
+1. Firestore user auth #MAYBE? TBC?
+2. Stripe/Razorpay for payment? Or add to cart and contact whatsapp for payment #MAYBE? TBC?
+3. Sign up and Sign in for auth users firebase/firestore #MAYBE? TBC?
+4. Check out as guest * DONE *
+5. Dark mode needs to be fixed for Shop.jsx * DONE *
+6. Fix home page to make more sense
+
+== 17 JAN 2025 == Cart's dynamic function
+1. Fixed Navbar's Cart dynamic function
+    - 1. import { useCart } from '../../Context/CartContext' -> To Navbar.jsx
+    - 2. Extract { cart } from useCart() and declaring varialbe as -> const { cart } = useCart() in Navbar.jsx
+    - 3. Create a reducer to calculate the total item count in the array -> const cartItemCount = cart.reduce
+    ((total, item) => total + item.quantity, 0)
+    - 4. Call/Insert the variable {cartItemCount} from the reducer to display
+
+== 20 JAN 2025 ==
+1. Learned .filter() and .sort() to filter/sort array of objects based on selected methods -> refer to Notion for learning's detail 
+2. Code examples in Notion are because array of objects are in the same .jsx page
+    i. How to correctly pass the array of objects from Products.jsx to Shop.jsx to pass in the filter/sort method ../src/App.jsx 
+
+// == 25 JAN 2025 ==
+// 1. After copying the new code the product grid view does not work * DONE *
+
+FIXME: * TRY TO UNDERSTAND THE FILTER CODE *
+TODO: Compare code from new code in chatGPT and the code saved on the right 
+Update the filter state to include categories. -> * useState *
+Modify the filter handler to handle both brands and categories. -> * Focuses on how the application collects and stores user selections when they interact with the filter checkboxes. *
+Adjust the filtering logic to include category filtering. -> * Filtering happens based on the user's selections stored in state (from Step 2). It dynamically updates the product list based on the selected filters. *
+Update the UI to include category checkboxes. -> * Update the filter UI and to <input> and then to product grid to .map it out *
+
+== 28 JAN 2025 ==
+- Fixed the Sort button's menu by adding bg-white to the <MenuItems> component in Shop.jsx and added hover effects on <MenuItems> links
+
+FIXME: * TRY TO UNDERSTAND THE SEARCH FUNCTION CODE *
+== 3 FEB 2025 ==
+- Searchbar and Searchresult page are now working 
+- How do I implement the same layout like Shop.jsx into the Searchresult page when searching * Copied the UI from Shop.jsx *
+- Sort function not fixed(?)
+- SEARCHRESULT PAGE === SHOP PAGE * filtered the search results and do results.map instead of the filteredProducts.map *
+
+== 10 FEB 2025 ==
+- To start implementing sort function 
+- Local storage for cart? Maybe look at backend firestore/firebase
+- Try and understand the search function
+
+== 16 FEB 2025 ==
+- Sort function *implemented* in Shop.jsx 
+- Local storage for cart? Maybe look at backend firestore/firebase
+- Setup guest checkout page
+
+== 17 FEB 2025 ==
+- Implemented localStorage + Firestore/Firebase hybrid for CartContext.jsx
+- Increased item quantity selection from 5 -> 10 in Cart.jsx 
+- To setup guest checkout page * DONE *
+- Try and understand localStorage + Firestore/Firebase hybrid for the updated CartContext.jsx
+
+== 23 FEB 2025 ==
+- To setup guest checkout page * DONE *
+- Fix dark mode on all pages * DONE *
+
+== 26 FEB 2025 ==
+- Implemented guest checkout page 
+    -> Creates a guest checkout flow with a form for customer details
+    -> Stores orders in Firebase with a unique order ID
+    -> Shows a confirmation page with payment instructions
+    -> Clears the cart after successful checkout
+    -> Uses your existing Firebase setup
+
+    * To notify the shop owner of new orders, you could: *
+        - Set up Firebase Cloud Functions to send emails when new orders are created
+        - Use a notification service like Firebase Cloud Messaging
+        - Create an admin dashboard to view new orders
+        - Would you like me to explain any part in more detail or help you set up owner notifications?
+
+== 1 MARCH 2025 ==
+- Fixed dark mode on all pages (min-h-(?) only for Cart.jsx dakrmode page)
+- Setup the environment variables for better security * DONE *
+- Setup firebase to notify owner when customer placed order * DONE *
+- Add correct products and do some cleaning up on visuals * DONE *
+- Notification after successfully added to cart * DONE *
+
+== 2 MARCH 2025 ==
+- To study on the .env file and how to set it up for security measures @ Firebase-email-notify.notes
+
+== 3 MARCH 2025 ==
+- Added notification in Shop.jsx for when item is added successfully to the cart
+TODO: - To study no the notification implementation
+
+== 4 MARCH 2025 ==
+- Implemented the ProductDetails.jsx for each of the product's own page
+TODO: - To study on the implementation of each of the product's page 
+- Moved the array of objects (products) from * Products.jsx to productlist.js *
+    - Fixed the path of Shop.jsx, Products.jsx, Searchresult.jsx, ProductDetails.jsx from { products } to { productlist } 
+
+== 8 MARCH 2025 ==
+- Addded -> 1. Shipping & Return, Refund Policy
+                A page dedicated to explaining shipping policies, including:
+                    Available shipping methods
+                    Delivery times
+                    Shipping costs
+                    International shipping options (if applicable)
+                    Tracking information
+            -> A clear and concise explanation of how returns and refunds are handled, including eligibility, time frames, and how to process them.
+-> 2. Terms and Conditions (T&C)
+A legal page outlining the rules and guidelines customers must agree to when using your site. This includes payment terms, product usage, and dispute resolution.
+-> 3. FAQ (Frequently Asked Questions)
+A page that addresses common customer questions, such as product details, payment methods, shipping issues, etc. This reduces customer inquiries and streamlines the shopping experience.
+-> 4. Contact Us Page
+A page with your business's contact information (email, phone, physical address) and possibly a contact form for customer inquiries.
+-> 5. Payment Information
+A secure page that displays the different payment methods accepted on your site (credit cards, PayPal, etc.) and any additional payment-related information.
+Summary:
+1. Create each and all of the new pages with the design and info etc.
+2. Update the links in the array of objects (e.g: link: "/shipping-policy")
+3. Lastly, add the routes to App.jsx:
+    <Routes>
+        <Route path="/shipping-policy" element={<ShippingPolicy />} />
+    </Routes>
+
+- Added data-aos="fade-up" in the opening <div> to all the above pages and About.jsx
+
+== 10 MARCH 2025 ==
+- Added customer to receive email notification after placing order and fixed html within customerMailOptions
+TODO:
+- To add the correct products
+- To clean up any visual details 
+- To make texts/title of products in Shop.jsx clickable instead of just images

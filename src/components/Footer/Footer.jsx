@@ -1,24 +1,46 @@
-import React from "react";
 import { FaMobileAlt } from "react-icons/fa";
 import { FaFacebook, FaInstagram, FaLinkedin, FaLocationArrow } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 
-const FooterLinks = [
+const ImportantLinks = [
+  {
+    title: "Shipping & Return, Refund Policy",
+    link: "/shipping-policy",
+  },
+  {
+    title: "Terms and Conditions (T&C)",
+    link: "/terms-conditions",
+  },
+  {
+    title: "FAQ (Frequently Asked Questions)",
+    link: "/faq",
+  },
+  {
+    title: "Contact Us Page",
+    link: "/contact",
+  },
+  {
+    title:"Payment Information",
+    link: "/payment-info"
+  },
+];
+
+const QuickLinks = [
   {
     title: "Home",
     link: "/#",
   },
   {
-    title: "About",
-    link: "/#about",
+    title: "Shop",
+    link: "/shop",
   },
   {
-    title: "Contact",
-    link: "/#contact",
+    title: "About",
+    link: "/about",
   },
   {
     title: "Blog",
-    link: "/#blog",
+    link: "/blog",
   },
 ];
 
@@ -40,23 +62,23 @@ const Footer = () => {
               at obcaecati harum qui dolorem illum quaerat, unde labore beatae
               tenetur!
             </p>
-            <p className="text-gray-500 mt-4">Made with ❤️ by Ben</p>
+            {/* <p className="text-gray-500 mt-4">Made with ❤️ by Ben</p> */}
             <a
               href="https://www.instagram.com/holo_beauty/"
               target="_blank"
-              className="inline-block bg-primary/90 text-white py-2 px-8 mt-4 text-sm rounded-full"
+              className="inline-block bg-primary hover:bg-red-600 text-white py-2 px-8 mt-4 text-sm rounded-full"
             >
               Connect with us on Instagram!
             </a>
           </div>
-          {/* Footer links */}
+          {/* Important links */}
           <div className="col-span-2 grid grid-cols2 sm:grid-cols-3 md:pl-10">
             <div className="py-8 px-4">
               <h1 className="text-xl font-semibold sm:text-left mb-3">
                 Important Links
               </h1>
               <ul className="space-y-3 mt-4">
-                {FooterLinks.map((data, index) => (
+                {ImportantLinks.map((data, index) => (
                   <li key={index}>
                     <a
                       href={data.link}
@@ -69,13 +91,13 @@ const Footer = () => {
               </ul>
             </div>
             
-            {/* Second col links */}
-            <div className="py-8 px-4">
+            {/* Quick links */}
+            <div className="py-8 ml-14 px-4">
               <h1 className="text-xl font-semibold sm:text-left mb-3">
                 Quick Links
               </h1>
               <ul className="space-y-3 mt-4">
-                {FooterLinks.map((data, index) => (
+                {QuickLinks.map((data, index) => (
                   <li key={index}>
                     <a
                       href={data.link}
@@ -108,9 +130,6 @@ const Footer = () => {
                     </a>
                     <a href="#">
                         <FaFacebook className="text-3xl hover:text-primary duration-300" />
-                    </a>
-                    <a href="#">
-                        <FaLinkedin className="text-3xl hover:text-primary duration-300" />
                     </a>
                 </div>
               </div>

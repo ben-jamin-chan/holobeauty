@@ -55,7 +55,7 @@ const Hero = ({handleOrderPopup}) => {
         <div className="container pb-8 sm:pb-0">
           {/* Hero section */}
           <Slider {...settings}>
-            {HeroData.map((data, index) => (
+            {HeroData.map((data) => (
               <div key={data.id}>
                 <div className="grid grid-cols-1 sm:grid-cols-2">
                   {/* Text content section */}

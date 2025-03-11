@@ -1,0 +1,23 @@
+allCarts = object -> using JSON.parse(localStorage.getItem) -> retrieves data from the browser's local storage and converts it into a JavaScript object. 
+    i. localStorage.getItem(...):
+        This method retrieves a value from the browser's local storage by the given key. It returns the value as a string.
+
+    ii. JSON.parse(...):
+        This method takes a JSON string and converts it into a JavaScript object.
+        If you passed the string "{\"name\":\"John\",\"age\":30}", JSON.parse() would return the object: { name: "John", age: 30 }.
+
+
+For example, if you had saved a JSON object into localStorage under the key 'userData', like this:
+localStorage.setItem('userData', JSON.stringify({ name: "John", age: 30 }));
+
+* STRING INTO OBJECT *
+You could retrieve and use it like this:
+let user = JSON.parse(localStorage.getItem('userData'));
+console.log(user.name); // Outputs: "John"
+console.log(user.age);  // Outputs: 30
+
+* OBJECT INTO STRING *
+JSON.stringify(value)
+
+== NEXT LINE == 
+cart = passive useState of array []

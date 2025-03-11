@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { products } from '../Products/Products';
+import { productlist } from '../Products/productlist';
 import ProductCard from '../Products/ProductCard';
 import {
   Dialog,
@@ -57,7 +57,7 @@ const SearchResult = () => {
 
   useEffect(() => {
     if (query) {
-      const filteredProducts = products.filter(product =>
+      const filteredProducts = productlist.filter(product =>
         product.title.toLowerCase().includes(query.toLowerCase()) ||
         product.category.toLowerCase().includes(query.toLowerCase()) ||
         product.brand.toLowerCase().includes(query.toLowerCase())

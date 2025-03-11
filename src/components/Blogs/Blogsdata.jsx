@@ -1,4 +1,3 @@
-import React from "react";
 import Heading from "../Shared/Heading";
 import Img1 from "../../assets/blogs/blog-1.1.jpg"
 import Img2 from "../../assets/blogs/blog-1.2.jpg"
@@ -7,28 +6,28 @@ import Img3 from "../../assets/blogs/blog-1.3.jpg"
 const BlogData = [
     {
         title: "How to choose the perfect skincare routine",
-        subtitle: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam repellat porro dolorem mollitia itaque autem maxime accusantium facere cumque excepturi!",
-        published: "Jan 20, 2024 by Dilshad",
+        subtitle: "To choose the perfect skincare routine, identify your skin type (oily, dry, combination, sensitive) and specific concerns (acne, aging, pigmentation). Start with a basic routine: a gentle cleanser, moisturizer, and sunscreen. Add targeted treatments like serums or exfoliants based on your needs. Stick to products that suit your skin, and gradually introduce new ones to avoid irritation. Consistency is key!",
+        published: "March 9, 2025 by Linh",
         image: Img1,
         aosDelay: "0",
     },
     {
         title: "Mastering your skincare routine",
-        subtitle: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam repellat porro dolorem mollitia itaque autem maxime accusantium facere cumque excepturi!",
-        published: "Jan 20, 2024 by Satya",
+        subtitle: "Mastering your skincare routine involves understanding your skin's needs and selecting the right products for your type and concerns. Build a consistent regimen with essential steps: cleanse, treat (serums, toners), moisturize, and protect (sunscreen). Pay attention to how your skin reacts and adjust products accordingly. Patience and consistency are crucial for long-term results.",
+        published: "March 9, 2025 by Linh",
         image: Img2,
         aosDelay: "200",
     },
     {
         title: "How to choose your skincare products",
-        subtitle: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam repellat porro dolorem mollitia itaque autem maxime accusantium facere cumque excepturi!",
-        published: "Jan 20, 2024 by Sabir",
+        subtitle: "To choose skincare products, first determine your skin type and concerns. Look for ingredients that address those needs, like hyaluronic acid for hydration or salicylic acid for acne. Choose products with gentle formulas, avoid harsh chemicals, and patch test new items. Prioritize quality over quantity for a simple, effective routine.",
+        published: "March 9, 2025 by Linh",
         image: Img3,
         aosDelay: "400",
     },
 ]
 
-const Blogs = () => {
+const Blogsdata = () => {
   return (
     <div className="py-12">
       <div className="container">
@@ -40,7 +39,7 @@ const Blogs = () => {
         {/* Blog section */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 gap-y-8 sm:gap-4 md:gap-7">
             {/* Blog card */}
-            {BlogData.map((data, index) => (
+            {BlogData.map((data) => (
                 <div 
                 data-aos="fade-up"
                 data-aos-delay={data.aosDelay}
@@ -69,4 +68,4 @@ const Blogs = () => {
   );
 };
 
-export default Blogs;
+export default Blogsdata;

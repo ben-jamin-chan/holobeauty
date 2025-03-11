@@ -1,0 +1,50 @@
+#1. Add useState for notification (Shop.jsx)
+    const [notification, setNotification] = useState(''); // State for notification
+
+#2. Create a Function to Handle Adding to Cart (Shop.jsx)
+    const handleAddToCart = (product) => {
+    // Logic to add the product to the cart goes here and to Show notification
+    setNotification(`${product.title} successfully added to cart!`);
+
+    // Clear notification after 5 seconds
+    setTimeout(() => {
+      setNotification('');
+    }, 5000);
+  };
+
+#3. Display the Notification (Shop.jsx)
+    return(
+        * OPENING *
+        <div>
+        {notification && ( // Display notification if it exists
+            <div className="fixed top-0 left-1/2 transform -translate-x-1/2 bg-green-500 text-white p-4 rounded-md shadow-lg z-50">
+            {notification}
+            </div>
+        )}
+
+        * ENDING *
+        {filteredProducts.length > 0 ? (
+            filteredProducts.map((product) => (
+                <ProductCard key={product.id} product={product} * onAddToCart={() => handleAddToCart(product)} *>
+            ))
+            ) : (
+            <p className="text-center text-gray-500">No products found.</p>
+            )}
+    )
+
+#4. Pass prop (handleAddToCart) -> to ProductCard.jsx 
+    const ProductCard = ({ product, onAddToCart }) => {
+        // Existing code..
+
+        return(
+            // Existing code..
+            <button
+            className="bg-primary text-white cursor-pointer hover:scale-105 duration-300 py-2 px-8 rounded-full relative z-10 w-full items-center justify-center flex gap-2"
+            onClick={() => {
+              addToCart(product) // const { addToCart } = useCart();
+              onAddToCart()
+            }}
+            >
+            // Existing code..
+        )
+    }

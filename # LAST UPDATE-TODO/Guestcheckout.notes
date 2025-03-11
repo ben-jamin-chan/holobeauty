@@ -1,0 +1,202 @@
+Based on your code, I can see you have a well-structured cart system using Firebase. Yes, storing guest orders in Firebase would be the best approach as it allows you to:
+Track all orders in one place
+Maintain consistency with your existing architecture
+Easily notify shop owners of new orders
+Keep order history for reference
+Let's implement the guest checkout. First, let's modify your Cart.jsx to add the checkout flow:
+
+* Cart.jsx *
+// ... existing code ...
+import { useState } from 'react';
+import GuestCheckout from '../GuestCheckout/GuestCheckout';
+import OrderConfirmation from '../OrderConfirmation/OrderConfirmation';
+
+const Cart = () => {
+  const { cart, total, removeFromCart, updateQuantity, isLoading, clearCart } = useCart();
+  const [checkoutStep, setCheckoutStep] = useState('cart'); // 'cart', 'checkout', 'confirmation'
+  const [orderDetails, setOrderDetails] = useState(null);
+
+  if (isLoading) {
+    return <div>Loading cart...</div>;
+  }
+
+  const handleCheckoutClick = () => {
+    setCheckoutStep('checkout');
+  };
+
+  const handleCheckoutComplete = async (details) => {
+    setOrderDetails(details);
+    setCheckoutStep('confirmation');
+    await clearCart(); // Clear the cart after successful checkout
+  };
+
+  if (checkoutStep === 'checkout') {
+    return <GuestCheckout cartItems={cart} totalAmount={total} onCheckoutComplete={handleCheckoutComplete} />;
+  }
+
+  if (checkoutStep === 'confirmation') {
+    return <OrderConfirmation orderDetails={orderDetails} />;
+  }
+
+  return (
+    <div className="bg-white shadow-lg rounded-lg p-6 m-4">
+      {/* ... existing cart display code ... */}
+      
+      {/* Update the checkout button */}
+      <button 
+        className="w-full mt-4 bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"
+        onClick={handleCheckoutClick}
+      >
+        Checkout
+      </button>
+    </div>
+  );
+};
+
+Create a new GuestCheckout component:
+* GuestCheckout.jsx *
+import { useState } from 'react';
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
+import { db } from '../../firebase/config';
+
+const GuestCheckout = ({ cartItems, totalAmount, onCheckoutComplete }) => {
+  const [guestInfo, setGuestInfo] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    address: '',
+  });
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    try {
+      // Generate order ID
+      const orderId = `ORDER-${Date.now()}`;
+      
+      // Save order to Firebase
+      const orderRef = await addDoc(collection(db, 'orders'), {
+        orderId,
+        guestInfo,
+        items: cartItems,
+        totalAmount,
+        status: 'pending',
+        paymentStatus: 'unpaid',
+        createdAt: serverTimestamp(),
+      });
+
+      // Show confirmation
+      onCheckoutComplete({
+        orderId,
+        orderRef: orderRef.id,
+        guestInfo,
+        totalAmount,
+      });
+      
+    } catch (error) {
+      console.error('Error processing checkout:', error);
+      alert('There was an error processing your order. Please try again.');
+    }
+  };
+
+  return (
+    <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
+      <h2 className="text-2xl font-bold mb-4">Guest Checkout</h2>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div>
+          <label className="block text-sm font-medium text-gray-700">Full Name</label>
+          <input
+            type="text"
+            className="mt-1 w-full p-2 border rounded-md"
+            value={guestInfo.name}
+            onChange={(e) => setGuestInfo({...guestInfo, name: e.target.value})}
+            required
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700">Email</label>
+          <input
+            type="email"
+            className="mt-1 w-full p-2 border rounded-md"
+            value={guestInfo.email}
+            onChange={(e) => setGuestInfo({...guestInfo, email: e.target.value})}
+            required
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700">Phone Number</label>
+          <input
+            type="tel"
+            className="mt-1 w-full p-2 border rounded-md"
+            value={guestInfo.phone}
+            onChange={(e) => setGuestInfo({...guestInfo, phone: e.target.value})}
+            required
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700">Delivery Address</label>
+          <textarea
+            className="mt-1 w-full p-2 border rounded-md"
+            value={guestInfo.address}
+            onChange={(e) => setGuestInfo({...guestInfo, address: e.target.value})}
+            required
+            rows="3"
+          />
+        </div>
+        <button
+          type="submit"
+          className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700"
+        >
+          Complete Order
+        </button>
+      </form>
+    </div>
+  );
+};
+
+export default GuestCheckout;
+
+And create an OrderConfirmation component:
+* OrderConfirmation.jsx *
+const OrderConfirmation = ({ orderDetails }) => {
+  return (
+    <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
+      <div className="text-center mb-6">
+        <h2 className="text-2xl font-bold text-green-600">Order Confirmed!</h2>
+        <p className="text-gray-600">Thank you for your purchase</p>
+      </div>
+
+      <div className="space-y-4">
+        <div className="border-b pb-4">
+          <p className="font-bold">Order ID:</p>
+          <p className="font-mono">{orderDetails.orderId}</p>
+        </div>
+
+        <div className="border-b pb-4">
+          <p className="font-bold">Total Amount:</p>
+          <p className="text-xl">RM {orderDetails.totalAmount.toFixed(2)}</p>
+        </div>
+
+        <div className="bg-gray-50 p-4 rounded-lg">
+          <p className="font-bold mb-2">Payment Instructions:</p>
+          <div className="space-y-2">
+            <p>Please transfer the total amount to:</p>
+            <div className="font-mono bg-white p-3 rounded border">
+              <p>Bank: MAYBANK</p>
+              <p>Account Number: 1234567890</p>
+              <p>Account Name: YOUR SHOP NAME</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="text-sm text-gray-600 mt-6">
+          <p>Please send your payment proof to:</p>
+          <p>WhatsApp: +60 12-345-6789</p>
+          <p>Email: your@email.com</p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default OrderConfirmation;

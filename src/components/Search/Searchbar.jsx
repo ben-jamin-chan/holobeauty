@@ -21,7 +21,7 @@ const Searchbar = () => {
       placeholder=" Search products..."
       value={searchQuery}
       onChange={(e) => setSearchQuery(e.target.value)}
-      className="font-normal rounded border border-black h-9" 
+      className="font-normal rounded border border-black h-9 dark:text-black" 
       />
       <button type='submit'>
       <IoMdSearch className="text-xl text-gray-600 group-hover:text-primary dark:text-gray-400 absolute top-1/2 -translate-y-1/2 right-3 duration-200" />

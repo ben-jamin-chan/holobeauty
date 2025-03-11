@@ -26,7 +26,7 @@ export const CartProvider = ({ children }) => {
     const [total, setTotal] = useState(0)
     const [sessionId, setSessionId] = useState(null)
     const [isLoading, setIsLoading] = useState(true)
-
+    
     // Initialize session and load cart data
     useEffect(() => {
         const initializeCart = async () => {

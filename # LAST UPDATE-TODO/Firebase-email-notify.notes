@@ -1,0 +1,304 @@
+* 5 STEPS PROCESS *
+1. Setup firebase 
+2. Create a function folder -> create index.js -> Which will be for the function to send email and notify shop owner
+3. Install the dependencies if any for the function folder to send the email
+4. Update the Guestcheckout.jsx page to include more order details and also for it to link to firebase
+5. Deploy the email notification function with -> firebase deploy --only functions
+
+
+There are a few good approaches to implement order notifications using Firebase. I'll show you how to use Firebase Cloud Functions with either email notifications or Firebase Cloud Messaging (FCM). Here's how to set it up:
+
+First, install Firebase Functions and initialize it:
+firebase init functions
+
+Create a new Cloud Function that triggers when a new order is added:
+const { onDocumentCreated } = require('firebase-functions/v2/firestore');
+const { initializeApp } = require('firebase-admin/app');
+const { getFirestore } = require('firebase-admin/firestore');
+const nodemailer = require('nodemailer');
+const { setGlobalOptions } = require('firebase-functions/v2');
+
+// Set the region
+setGlobalOptions({ region: 'asia-southeast1' });
+
+initializeApp();
+
+// Configure nodemailer with your email service (Gmail example)
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'your-email@gmail.com',
+    pass: 'your-app-specific-password' // Use App Password from Google Account
+  }
+});
+
+exports.sendOrderNotification = onDocumentCreated('orders/{orderId}', async (event) => {
+  const orderData = event.data.data();
+  const orderId = event.params.orderId;
+
+    // Email notification
+    const mailOptions = {
+      from: 'your-email@gmail.com',
+      to: 'khanhlinh14498@gmail.com', // Shop owner's email
+      subject: `New Order Received - ${orderData.orderId}`,
+      html: `
+        <h2>New Order Details</h2>
+        <p><strong>Order ID:</strong> ${orderData.orderId}</p>
+        <p><strong>Customer Name:</strong> ${orderData.guestInfo.name}</p>
+        <p><strong>Customer Email:</strong> ${orderData.guestInfo.email}</p>
+        <p><strong>Customer Phone:</strong> ${orderData.guestInfo.phone}</p>
+        <p><strong>Delivery Address:</strong> ${orderData.guestInfo.address}</p>
+        
+        <h3>Order Items:</h3>
+        <ul>
+          ${orderData.items.map(item => `
+            <li>${item.title} - Quantity: ${item.quantity} - RM${item.price}</li>
+          `).join('')}
+        </ul>
+        
+        <p><strong>Total Amount:</strong> RM${orderData.totalAmount}</p>
+        <p><strong>Order Status:</strong> ${orderData.status}</p>
+        <p><strong>Payment Status:</strong> ${orderData.paymentStatus}</p>
+      `
+    };
+
+    try {
+      await transporter.sendMail(mailOptions);
+      console.log('Order notification email sent successfully');
+
+      // Update the order with notification status
+      await admin.firestore()
+        .collection('orders')
+        .doc(orderId)
+        .update({
+          notificationSent: true,
+          notificationSentAt: admin.firestore.FieldValue.serverTimestamp()
+        });
+
+    } catch (error) {
+      console.error('Error sending notification:', error);
+    }
+  });
+
+Install the required dependencies in your functions folder:
+cd functions
+npm install nodemailer
+
+Update your GuestCheckout component to include more order details:
+const GuestCheckout = ({ cartItems, totalAmount, onCheckoutComplete }) => {
+  const [guestInfo, setGuestInfo] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    address: '',
+  });
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    try {
+      // Generate order ID with timestamp and random string
+      const orderId = `ORDER-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+      
+      // Prepare order data with detailed information
+      const orderData = {
+        orderId,
+        guestInfo,
+        items: cartItems.map(item => ({
+          id: item.id,
+          title: item.title,
+          price: item.price,
+          quantity: item.quantity,
+          img: item.img
+        })),
+        totalAmount,
+        status: 'pending',
+        paymentStatus: 'unpaid',
+        createdAt: serverTimestamp(),
+        orderNotes: '', // Optional field for customer notes
+        shippingMethod: 'standard', // You can add shipping options later
+      };
+
+      // Save order to Firebase
+      const orderRef = await addDoc(collection(db, 'orders'), orderData);
+
+      // Show confirmation
+      onCheckoutComplete({
+        orderId,
+        orderRef: orderRef.id,
+        guestInfo,
+        totalAmount,
+        items: cartItems
+      });
+      
+    } catch (error) {
+      console.error('Error processing checkout:', error);
+      alert('There was an error processing your order. Please try again.');
+    }
+  };
+
+  // ... rest of the component remains the same ...
+};
+
+Lastly Deploy the Cloud Functions:
+firebase deploy --only functions
+
+--------------------------------------
+# HOW TO MAKE EMAIL AND PASSWORD HIDDEN WITH .ENV #
+
+1. * Set environment variables for in terminal *
+firebase functions:config:set gmail.email="transportation-email" gmail.password="your-app-password"
+
+2. * Update index.js below *
+require('dotenv').config(); // Load environment variables from .env file
+const { defineString } = require('firebase-functions/params');
+
+// Define environment variables
+const gmailEmail = defineString('GMAIL_EMAIL');
+const ownerEmail = defineString('OWNER_EMAIL')
+const gmailPassword = defineString('GMAIL_PASSWORD');
+
+// Change from user & pass to .env files value 
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: gmailEmail.value(),
+    pass: gmailPassword.value()
+  }
+});
+
+const mailOptions = {
+    from: gmailEmail.value(), // Use environment variable
+    to: ownerEmail.value(),
+    //... remaining existing codes below
+}
+
+3. * Create a .env file * in your functions folder for local development:
+GMAIL_EMAIL=chanbenjamin.tl@gmail.com
+OWNER_EMAIL=khanhlinh14498@gmail.com
+GMAIL_PASSWORD=zgfy yapl lmdc qqbl
+
+4. * Add .env to your .gitignore file: *
+node_modules/
+.env
+
+5. * For local testing, * create a `runtimeconfig.json` in your functions folder:
+{
+  "gmail": {
+    "email": "khanhlinh14498@gmail.com",
+    "password": "your-app-password"
+  }
+}
+
+6. Update `package.json` to include the necessary dependencies:
+{
+  "dependencies": {
+    "firebase-admin": "^11.11.0",
+    "firebase-functions": "^4.5.0",
+    "nodemailer": "^6.9.7",
+    "dotenv": "^16.3.1"
+  }
+}
+
+7. Install the new dependencies:
+cd functions
+npm install
+
+
+8. Deploy your updated functions:
+firebase deploy --only functions
+
+-----------------------------------
+# HOW TO NOTIFY CUSTOMER VIA EMAIL FOR PLACED ORDER #
+* MAKE SURE TO ALWAYS RUN `firebase deploy --only functions` TO SAVE AND ACTIVATE THE FIREBASE CODE BEFORE TESTING AND RUNNING *
+
+1. Update indexjs to include customer confirmation mail: (index.js)
+
+// Customer confirmation email
+  const customerMailOptions = {
+    from: gmailEmail.value(),
+    to: orderData.guestInfo.email,
+    subject: `Order Confirmation - ${orderData.orderId}`,
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+        <h2 style="color: #333;">Thank you for your order!</h2>
+        <p>Dear ${orderData.guestInfo.name},</p>
+        <p>We have received your order and it is being processed. Here are your order details:</p>
+        
+        <div style="background-color: #f9f9f9; padding: 15px; border-radius: 5px; margin: 20px 0;">
+          <p><strong>Order ID:</strong> ${orderData.orderId}</p>
+          <p><strong>Order Date:</strong> ${new Date().toLocaleDateString()}</p>
+          
+          <h3 style="color: #444;">Order Summary:</h3>
+          <ul style="list-style: none; padding: 0;">
+            ${orderData.items.map(item => `
+              <li style="margin-bottom: 10px;">
+                <span style="font-weight: bold;">${item.title}</span><br>
+                Quantity: ${item.quantity}<br>
+                Price: RM${item.price}
+              </li>
+            `).join('')}
+          </ul>
+          
+          <p style="font-size: 18px; font-weight: bold; margin-top: 15px;">
+            Total Amount: RM${orderData.totalAmount}
+          </p>
+        </div>
+        
+        <div style="background-color: #f5f5f5; padding: 15px; border-radius: 5px;">
+          <h3 style="color: #444;">Delivery Information:</h3>
+          <p><strong>Delivery Address:</strong><br>${orderData.guestInfo.address}</p>
+        </div>
+        
+        <p style="margin-top: 20px;">
+          We will notify you once your order has been shipped. If you have any questions, 
+          please don't hesitate to contact us.
+        </p>
+        
+        <div style="margin-top: 30px; color: #666; font-size: 14px;">
+          <p>Best regards,<br>Hơ Lơ Beauty Team</p>
+        </div>
+      </div>
+    `
+  };
+
+2. * Uses Promise.all() * to send both emails concurrently:
+
+  try {
+    console.log('Attempting to send emails...');
+    
+    // Send both emails concurrently
+    await Promise.all([
+      transporter.sendMail(ownerMailOptions),
+      transporter.sendMail(customerMailOptions)
+    ]);
+    
+    console.log('Order notification emails sent successfully');
+  }
+
+* ENTIRE CODE FOR THE ABOVE: *
+
+  try {
+    console.log('Attempting to send emails...');
+    
+    // Send both emails concurrently
+    await Promise.all([
+      transporter.sendMail(ownerMailOptions),
+      transporter.sendMail(customerMailOptions)
+    ]);
+    
+    console.log('Order notification emails sent successfully');
+
+    // Update the order with notification status
+    const db = getFirestore();
+    await db.collection('orders').doc(orderId).update({
+      notificationSent: true,
+      notificationSentAt: new Date(),
+      customerNotificationSent: true
+    });
+
+  } catch (error) {
+    console.error('Error sending notifications:', error);
+    throw new Error('Failed to send notification emails');
+  }
+

@@ -35,20 +35,49 @@ const MenuLinks = [
 const DropdownLinks = [
   {
     id: 1,
-    name: "Trending Products",
-    link: "/#",
+    name: "Shipping & Return, Refund Policy",
+    link: "/shipping-policy",
   },
   {
     id: 2,
-    name: "Best Selling",
-    link: "/#",
+    name: "Terms and Conditions (T&C)",
+    link: "/terms-conditions",
   },
   {
     id: 3,
-    name: "Top Rated",
-    link: "/#",
+    name: "FAQ (Frequently Asked Questions)",
+    link: "/faq",
+  },
+  {
+    id: 4,
+    name: "Contact Us Page",
+    link: "/contact",
+  },
+  {
+    id: 5,
+    name: "Payment Information",
+    link: "/payment-info",
   },
 ];
+
+// == BACK-UP FOR PREVIOUS JUST IN CASE ==
+// const DropdownLinks = [ 
+//   {
+//     id: 1,
+//     name: "Trending Products",
+//     link: "/#",
+//   },
+//   {
+//     id: 2,
+//     name: "Best Selling",
+//     link: "/#",
+//   },
+//   {
+//     id: 3,
+//     name: "Top Rated",
+//     link: "/#",
+//   },
+// ];
 
 const Navbar = ({ handleOrderPopup }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -91,7 +120,7 @@ const Navbar = ({ handleOrderPopup }) => {
                     href="#"
                     className="flex items-center gap-[2px] font-semibold text-gray-500 dark:hover:text-white py-2"
                   >
-                    Quick Links
+                    More Information
                     <span>
                       <FaCaretDown className="group-hover:rotate-180 duration-300" />
                     </span>
@@ -103,7 +132,7 @@ const Navbar = ({ handleOrderPopup }) => {
                         <li key={data.id}>
                           <Link
                             className="text-gray-500 dark:hover:text-white duration-200 inline-block p-2 hover:bg-primary/20 w-full rounded-md font-semibold"
-                            to="/shop"
+                            to={data.link}
                           >
                             {data.name}
                           </Link>
