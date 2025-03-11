@@ -50,7 +50,7 @@ const ProductCard = ({ product, onAddToCart  }) => {
         <h2 className="font-medium hover:text-primary">{product.title}</h2>
         </Link>
         <div className="border border-solid"></div>
-        <h2 className="font-normal text-sm text-[1rem] mt-1">RM{product.price}</h2>
+        <h2 className="font-normal text-base text-[1rem] mt-1">RM {product.price}</h2>
       </div>
     </div>
   );

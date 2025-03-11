@@ -1,8 +1,6 @@
-import React from "react";
-
 const PaymentInfo = () => {
   return (
-    <div className="container py-16 px-4">
+    <div className="container py-16 px-4 min-h-[70vh]">
       <h1 className="text-3xl font-bold mb-8">Payment Information</h1>
 
       {/* <section className="mb-8">

@@ -128,4 +128,5 @@ Summary:
 TODO:
 - To add the correct products
 - To clean up any visual details 
-- To make texts/title of products in Shop.jsx clickable instead of just images
+- To make texts/title of products in Shop.jsx clickable instead of just images * DONE *
+
