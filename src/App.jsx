@@ -27,6 +27,7 @@ import Contact from './pages/Contact.jsx'
 import PaymentInfo from './pages/PaymentInfo.jsx'
 import ProductDetails from './components/Products/ProductDetails.jsx'
 import FeaturedProducts from './components/Products/FeaturedProducts'
+import ProductCard from './components/Products/ProductCard.jsx'
 
 const BannerData = {
   discount: "30% OFF",

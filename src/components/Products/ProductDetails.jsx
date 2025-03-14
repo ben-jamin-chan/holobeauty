@@ -2,17 +2,34 @@ import { useParams } from "react-router-dom";
 import { productlist } from "./productlist"
 import { ShoppingCart } from "lucide-react";
 import { useCart } from "../../Context/CartContext";
+import { useState } from "react";
 
 const ProductDetails = () => {
   const { id } = useParams();
   const { addToCart } = useCart();
   const product = productlist.find((p) => p.id === parseInt(id));
+  const [notification, setNotification] = useState('')
+
+  const handleAddToCart = () => {
+    setNotification(`${product.title} is successfully added!`)
+    addToCart(product)
+
+    setTimeout(() => {
+      setNotification('')
+    }, 5000)
+  }
 
   if (!product) {
     return <div className="container mx-auto px-4 py-8">Product not found</div>;
   }
 
   return (
+    <div>
+      {notification && (
+        <div className="fixed top-24 left-1/2 transform -translate-x-1/2 bg-green-500 text-white p-7 rounded-md shadow-lg z-50 text-xl transition duration-500 ease-in-out">
+          {notification}
+        </div>
+      )}
     <div className="container mx-auto px-4 py-8">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Product Image */}
@@ -40,7 +57,7 @@ const ProductDetails = () => {
             {/* Add more product details as needed */}
           </div>
           <button
-            onClick={() => addToCart(product)}
+            onClick={() => handleAddToCart()}
             className="bg-primary text-white py-3 px-6 rounded-full flex items-center justify-center gap-2 hover:opacity-90 transition-opacity w-full md:w-auto"
           >
             <ShoppingCart className="w-5 h-5" />
@@ -48,6 +65,7 @@ const ProductDetails = () => {
           </button>
         </div>
       </div>
+    </div>
     </div>
   );
 };

@@ -130,3 +130,6 @@ TODO:
 - To clean up any visual details 
 - To make texts/title of products in Shop.jsx clickable instead of just images * DONE *
 
+== 14 MARCH 2025 ==
+- Added notification for ProductDetails.jsx 
+- We can now add 2 different functions into onClick={} or add both into 1 function e.g: handleAddToCart = () => {}

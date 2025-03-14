@@ -190,7 +190,7 @@ const OrderConfirmation = ({ orderDetails }) => {
         </div>
 
         <div className="text-sm text-gray-600 mt-6">
-          <p>Please send your payment proof to:</p>
+          <p>Please send your payment receipt to:</p>
           <p>WhatsApp: +60 12-345-6789</p>
           <p>Email: your@email.com</p>
         </div>

@@ -115,7 +115,7 @@ exports.sendOrderNotification = onDocumentCreated('orders/{orderId}', async (eve
       </div>
 
           <div style="font-size: 0.875rem; color: #4b5563; margin-top: 1.5rem; font-weight: 600;">
-            <p>Please send your payment proof to:</p>
+            <p>Please send your payment receipt to:</p>
             <p>WhatsApp: +60 11-6980-9879</p>
             <p>Email: khanhlinh14498@gmail.com</p>
           </div>

@@ -17,22 +17,22 @@
         * OPENING *
         <div>
         {notification && ( // Display notification if it exists
-            <div className="fixed top-0 left-1/2 transform -translate-x-1/2 bg-green-500 text-white p-4 rounded-md shadow-lg z-50">
+            <div className="fixed top-24 left-1/2 transform -translate-x-1/2 bg-green-500 text-white p-7 rounded-md shadow-lg z-50 text-xl transition duration-500 ease-in-out">
             {notification}
             </div>
         )}
 
-        * ENDING *
+        * ENDING * -> onAddToCart={() => handleAddToCart(product)}
         {filteredProducts.length > 0 ? (
             filteredProducts.map((product) => (
-                <ProductCard key={product.id} product={product} * onAddToCart={() => handleAddToCart(product)} *>
+                <ProductCard key={product.id} product={product} onAddToCart={() => handleAddToCart(product)}>
             ))
             ) : (
             <p className="text-center text-gray-500">No products found.</p>
             )}
     )
 
-#4. Pass prop (handleAddToCart) -> to ProductCard.jsx 
+#4. Pass prop {onAddToCart} -> to ProductCard.jsx 
     const ProductCard = ({ product, onAddToCart }) => {
         // Existing code..
 
@@ -48,3 +48,36 @@
             // Existing code..
         )
     }
+
+---------------------------------------------------------------------------
+# ProductDetails.jsx 
+* Moved everything from the onClick on <button /> to handleAddToCart *
+
+#1 
+const [notification, setNotification] = useState('')
+
+#2
+const handleAddToCart() => {
+    setNotification(`${product.title} is successfully added to cart!`)
+    addToCart(product)
+
+    setTimeout(() => {
+        setNotification('')
+    }, 5000)
+}
+
+#3
+return (
+    <div>
+    {notification && (
+        <div className='z-50 bg-green-50 text-white etc... etc... etc...'>
+            {notification}
+        </div>
+    )}
+    </div>
+)
+
+#4
+<button
+    onClick={() => handleAddToCart()}
+/>

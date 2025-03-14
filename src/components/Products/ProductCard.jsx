@@ -9,11 +9,8 @@ const ProductCard = ({ product, onAddToCart  }) => {
   const { addToCart } = useCart();
 
   ProductCard.propTypes = {
-    product: Proptypes.string.isRequired,
-  }
-
-  ProductCard.propTypes = {
-    onAddToCart: Proptypes.string.isRequired,
+    product: Proptypes.object.isRequired,
+    onAddToCart: Proptypes.object.isRequired,
   }
 
   return (

@@ -45,7 +45,6 @@ const sortedProducts = products.sort((a,b) => {
     return 0
 })
 
-
 Step 4:
 * THIS IS TO MAP THE .sort LOGIC FUNCTIONS INTO THE BUTTON, NOT .map & RENDERING THE RESULTS OUT *
 // Rendering the selected sort option with .map to show the .sort result
