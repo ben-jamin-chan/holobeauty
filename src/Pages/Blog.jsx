@@ -1,3 +1,15 @@
+import Blogsdata from '../components/Blogs/Blogsdata'
+
+const Blog = () => {
+  return (
+    <div>
+        <Blogsdata />
+    </div>
+  )
+}
+
+export default Blog
+
 // import React, { useState } from 'react';
 // import { Heart, ShoppingCart, Star } from 'lucide-react';
 // import Blogs from '../components/Blogs/Blogs';
@@ -197,15 +209,3 @@
 // };
 
 // export default Blog;
-
-import Blogsdata from '../components/Blogs/Blogsdata'
-
-const Blog = () => {
-  return (
-    <div>
-        <Blogsdata />
-    </div>
-  )
-}
-
-export default Blog

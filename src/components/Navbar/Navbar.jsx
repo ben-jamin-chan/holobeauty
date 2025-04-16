@@ -40,7 +40,7 @@ const DropdownLinks = [
   },
   {
     id: 2,
-    name: "Terms and Conditions (T&C)",
+    name: "Terms and Conditions",
     link: "/terms-conditions",
   },
   {

@@ -4,7 +4,6 @@ import Image2 from '../../assets/category/la-mer-1.webp'
 import Image3 from '../../assets/category/Cleansing_Essentials_Set_Products.webp'
 import Button from '../Shared/Button'
 
-
 const Category = () => {
   return (
     <div className='py-8'>

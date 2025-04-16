@@ -64,7 +64,7 @@ export default ProductDetails;
               e.preventDefault()}}
     -> Added <Link to={`/product/${product.id}`}> and </Link> to all the components and html tags that are linked to the products (e.g: <img>, <button>, etc.)
 
-* ... existing imports and code ... *
+* ... the whole existing imports and code ... *
 import { Link } from "react-router-dom";
 
 const ProductCard = ({ product, onAddToCart }) => {
@@ -123,3 +123,4 @@ import ProductDetails from './components/Products/ProductDetails';
   <Route path="/search" element={<Searchresult />} />
   <Route path="/product/:id" element={<ProductDetails />} />
 </Routes>
+

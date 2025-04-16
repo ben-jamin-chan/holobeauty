@@ -28,6 +28,9 @@ import PaymentInfo from './pages/PaymentInfo.jsx'
 import ProductDetails from './components/Products/ProductDetails.jsx'
 import FeaturedProducts from './components/Products/FeaturedProducts'
 import ProductCard from './components/Products/ProductCard.jsx'
+import Blogsdata, { BlogData } from './components/Blogs/Blogsdata.jsx'
+import BlogDetails from './components/Blogs/BlogDetails.jsx'
+
 
 const BannerData = {
   discount: "30% OFF",
@@ -86,6 +89,7 @@ useEffect(() => {
         <Route path="/faq" element={<FAQ />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/payment-info" element={<PaymentInfo />} />
+        <Route path="/blog/:id" element={<BlogDetails />} />
       </Routes>
       <Footer />
       </BrowserRouter>

@@ -1,4 +1,4 @@
-import React from "react";
+import { Link } from "react-router-dom";
 import Button from "../Shared/Button";
 
 const Banner = ({ data }) => {
@@ -48,9 +48,11 @@ const Banner = ({ data }) => {
               {data.title4}
             </p>
             <div data-aos="fade-up" data-aos-offset="0">
+              <Link to="/shop">
               <button className="bg-white text-black py-2 px-4 rounded-full">
                 Shop Now
               </button>
+              </Link>
             </div>
           </div>
         </div>

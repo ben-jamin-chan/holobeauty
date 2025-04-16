@@ -1,4 +1,3 @@
-import React from "react";
 import Slider from "react-slick";
 import Image1 from "../../assets/hero/clinique.png";
 import Image2 from "../../assets/hero/tf-lipstick.png";
@@ -6,6 +5,8 @@ import Image3 from "../../assets/hero/estee_lauder_advanced_night_repair_serum_4
 import Button from "../Shared/Button";
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
+import { Link } from "react-router-dom";
+import { productlist } from "../Products/productlist";
 
 const HeroData = [
   {
@@ -34,7 +35,7 @@ const HeroData = [
   },
 ];
 
-const Hero = ({handleOrderPopup}) => {
+const Hero = ({ handleOrderPopup }) => {
   const settings = {
     dots: true,
     infinite: true,
@@ -90,12 +91,15 @@ const Hero = ({handleOrderPopup}) => {
                     data-aos-duration="500" 
                     data-aos-delay="300"
                     >
+                      {/* TODO: */}
+                      <Link to="/shop">
                       <Button
                         text="Shop By Category"
                         bgColor="bg-primary" 
                         textColor="text-white"
                         handler={handleOrderPopup}
                       />
+                      </Link>
                     </div>
                   </div>
                   {/* Img section */}

@@ -8,7 +8,7 @@ const ImportantLinks = [
     link: "/shipping-policy",
   },
   {
-    title: "Terms and Conditions (T&C)",
+    title: "Terms and Conditions",
     link: "/terms-conditions",
   },
   {
@@ -58,9 +58,8 @@ const Footer = () => {
               Hơ Lơ Beauty <span className="text-xl sm:text-1xl italic px-1 text-gray-500/70">by-Linh</span>
             </Link>
             <p className="text-gray-600 dark:text-white/70 lg:pr-24 pt-3">
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nostrum
-              at obcaecati harum qui dolorem illum quaerat, unde labore beatae
-              tenetur!
+              At Hơ Lơ Beauty, we believe in personalized care, a welcoming environment, and the transformative power of beauty. Our goal is to make you feel your best—every day. ❤️
+
             </p>
             {/* <p className="text-gray-500 mt-4">Made with ❤️ by Ben</p> */}
             <a
