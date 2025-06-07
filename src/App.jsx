@@ -30,6 +30,7 @@ import FeaturedProducts from './components/Products/FeaturedProducts'
 import ProductCard from './components/Products/ProductCard.jsx'
 import Blogsdata, { BlogData } from './components/Blogs/Blogsdata.jsx'
 import BlogDetails from './components/Blogs/BlogDetails.jsx'
+import WhatsAppButton from './components/Shared/WhatsAppButton.jsx'
 
 
 const BannerData = {
@@ -92,6 +93,7 @@ useEffect(() => {
         <Route path="/blog/:id" element={<BlogDetails />} />
       </Routes>
       <Footer />
+      <WhatsAppButton />
       </BrowserRouter>
     </div>
     </CartProvider>
