@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import Navbar from './components/Navbar/Navbar'
 import Hero from './components/Hero/Hero'
 import Category from './components/Category/Category'
@@ -8,7 +8,6 @@ import Banner from './components/Banner/Banner'
 import Products from './components/Products/Products.jsx'
 import Partners from './components/Partners/Partners'
 import Footer from './components/Footer/Footer'
-import { useState } from 'react'
 import AOS from 'aos'
 import 'aos/dist/aos.css';
 import lipstick from "./assets/hero/tf-lipstick.png"
@@ -31,7 +30,6 @@ import ProductCard from './components/Products/ProductCard.jsx'
 import Blogsdata, { BlogData } from './components/Blogs/Blogsdata.jsx'
 import BlogDetails from './components/Blogs/BlogDetails.jsx'
 import WhatsAppButton from './components/Shared/WhatsAppButton.jsx'
-
 
 const BannerData = {
   discount: "30% OFF",
@@ -72,13 +70,16 @@ const Home = ({ handleOrderPopup }) => {
 }
 
 const App = () => {
+  console.log('✅ App component is rendering...')
+  
   const [orderPopup, setOrderPopup] = useState(false)
 
   const handleOrderPopup = () => {
     setOrderPopup(!orderPopup)
   }
 
-useEffect(() => {
+  useEffect(() => {
+    console.log('✅ Initializing AOS...')
     AOS.init({
         duration: 800,
         easing: "ease-in-sine",
@@ -88,10 +89,14 @@ useEffect(() => {
       AOS.refresh()
   }, [])
 
+  // Use basename only in production (GitHub Pages)
+  const basename = import.meta.env.PROD ? "/holobeauty" : ""
+  console.log('✅ Using basename:', basename)
+
   return (
     <CartProvider>
     <div className='bg-white dark:bg-gray-900 dark:text-white duration-200 overflow-hidden'>
-      <BrowserRouter basename="/holobeauty">
+      <BrowserRouter basename={basename}>
       <Navbar handleOrderPopup={handleOrderPopup} />
       <Routes>
         <Route path="/" element={<Home handleOrderPopup={handleOrderPopup} />} />
