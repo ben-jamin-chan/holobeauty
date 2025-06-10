@@ -55,6 +55,22 @@ const BannerDataTwo = {
   bgColor: "#2dcc6f"
 }
 
+const Home = ({ handleOrderPopup }) => {
+  return (
+  <>
+      <Hero handleOrderPopup={handleOrderPopup} />
+      <Category />
+      <CategoryTwo />
+      <Services />
+      <Banner data={BannerData} />
+      <FeaturedProducts />
+      <Banner data={BannerDataTwo} />
+      <Blogsdata />
+      <Partners />
+  </>
+  )
+}
+
 const App = () => {
   const [orderPopup, setOrderPopup] = useState(false)
 
@@ -75,7 +91,7 @@ useEffect(() => {
   return (
     <CartProvider>
     <div className='bg-white dark:bg-gray-900 dark:text-white duration-200 overflow-hidden'>
-      <BrowserRouter>
+      <BrowserRouter basename="/holobeauty">
       <Navbar handleOrderPopup={handleOrderPopup} />
       <Routes>
         <Route path="/" element={<Home handleOrderPopup={handleOrderPopup} />} />
@@ -97,22 +113,6 @@ useEffect(() => {
       </BrowserRouter>
     </div>
     </CartProvider>
-  )
-}
-
-const Home = () => {
-  return (
-  <>
-      <Hero />
-      <Category />
-      <CategoryTwo />
-      <Services />
-      <Banner data={BannerData} />
-      <FeaturedProducts />
-      <Banner data={BannerDataTwo} />
-      <Blog />
-      <Partners />
-  </>
   )
 }
 
