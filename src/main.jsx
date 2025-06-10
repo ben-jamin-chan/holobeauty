@@ -4,12 +4,12 @@ import './index.css'
 import App from './App.jsx'
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-// import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    {/* <Router> */}
+    <BrowserRouter basename='/holobeauty'>
       <App />
-    {/* </Router> */}
+      </BrowserRouter>
   </StrictMode>,
 )
