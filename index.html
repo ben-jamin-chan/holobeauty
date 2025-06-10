@@ -2,10 +2,18 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <!-- Security headers - Note: Some headers are relaxed for development mode -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <meta http-equiv="X-Frame-Options" content="DENY" />
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block" />
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
+    <meta http-equiv="Permissions-Policy" content="geolocation=(), camera=(), microphone=()" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https: wss:; media-src 'self'; object-src 'none'; child-src 'self'; worker-src 'self'; form-action 'self';" />
+    
     <link rel="icon" type="image/svg+xml" href="/holobeauty/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hơ Lơ Beauty</title>
-    <script type="module" crossorigin src="/holobeauty/assets/index-BzKDGe67.js"></script>
+    <title>Hơ Lơ Beauty</title>
+    <script type="module" crossorigin src="/holobeauty/assets/index-Beqn3-rT.js"></script>
     <link rel="stylesheet" crossorigin href="/holobeauty/assets/index-BIP3W4up.css">
   </head>
   <body>
