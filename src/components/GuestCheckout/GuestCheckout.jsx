@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
-import { db } from '../../firebase/config';
+import { db } from '../../Firebase/config';
 
 const GuestCheckout = ({ cartItems, totalAmount, onCheckoutComplete }) => {
   const [guestInfo, setGuestInfo] = useState({
